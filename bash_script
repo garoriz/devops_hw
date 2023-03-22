@@ -1,0 +1,10 @@
+#!/bin/bash
+test x$1 = x$'\x00' && shift || { set -o pipefail ; ( exec 2>&1 ; $0 $'\x00' "$@" ) | tee -a log.txt ; exit $? ; }
+file="/etc/passwd"
+for user in $(sed 's/:.*//' $file)
+	do
+		sudo mkdir "/$user"
+		sudo chown "$user" "/$user"
+		sudo chmod 755 "/$user"
+	done
+
